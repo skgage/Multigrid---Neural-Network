@@ -54,35 +54,9 @@ def conv_prolong(input_tensor, level, level_prime):
     input_tensor = tf.expand_dims(input_tensor, 1)
     weights = tf.expand_dims(weights, 0) #shape (1,g1+1,1`,1)
     print ('input_tensor = ', input_tensor, 'weights = ', weights)
-    conv = tf.reshape(tf.nn.conv2d_transpose(input_tensor, weights, output_shape=[batch_size,1,size+1,1], strides=[1,1,2,1], padding="VALID"), [batch_size*(size+1),])
-    #Deal with adding first padded element value to last element
-    #conv = tf.placeholder("float", name='conv level{}'.format(level))
-    conv_adjust = tf.Variable(conv, dtype=tf.float32, trainable=False, validate_shape=False, name="conv_adjust")
-    #conv = tf.reshape(conv, [batch_size*(size+1), 1])
-    #p = tf.gather(conv, [0],axis=1) #update values
-    #print ('p = {}'.format(p))
-    update_vals = np.array([])
-    #for j in range(0,)
-    indices = np.array([])
-    for i in range(size, (size+1)*batch_size, size+1): #not efficient
-        print ('i = {}'.format(i))
-        indices = np.append(indices, [i])
-        update_vals = np.append(update_vals, [i-size])
-    indices = np.reshape(indices.astype(np.int32), [batch_size,]) #indices for update
-    update_vals = np.reshape(update_vals.astype(np.int32),[batch_size,])
-    conv_adjust = tf.scatter_add(conv_adjust, indices, update_vals)
-    print ('indices = {}'.format(indices))
-    print ('update values = {}'.format(update_vals))
-    #last_el = conv[:,-1,:]
-    #last_el += p
-    #print ('last_el = {}'.format(last_el))
-    #with tf.control_dependencies([conv[:,size-1,:].assign(last_el)]):
-    conv_adjust = tf.reshape(conv_adjust, [batch_size, size+1, 1])
-    print ('conv_adjust = {}'.format(conv_adjust))
-    #tf.assign(conv[:,size-1,:], last_el)
-    conv_adjust = conv_adjust[:, 1:,:]
-    print ('conv_adjust = ', conv_adjust)
-    return conv_adjust
+    conv = tf.nn.conv2d_transpose(input_tensor, weights, output_shape=[batch_size,1,size+1,1], strides=[1,1,2,1], padding="VALID")
+    iconv = conv[:,:,1:,:] + tf.pad(conv[:,:,0:1,:], [(0,0), (0,0), (size-1,0), (0,0)])
+    return tf.reshape(iconv, (batch_size,size,1))
 
 def inverse_layer(input_tensor, level, level_prime):
     print ('inverse layer level {}'.format(level))
