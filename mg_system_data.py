@@ -43,8 +43,8 @@ def gen_data(gridsize, n): #input is number of training/testing samples desired,
         #print ('b = ', b)
         dataset.append(b)
         solset.append(u)
-    dataset = numpy.reshape(numpy.array(dataset),[n,gridsize,1])
-    solset = numpy.reshape(numpy.array(solset),[n,gridsize,1])
+    dataset = numpy.reshape(numpy.array(dataset),[n,1,gridsize,1])
+    solset = numpy.reshape(numpy.array(solset),[n,1,gridsize,1])
         # if (k == 1): #randomly generate tridiagonal matrix? maybe should leave as 2,-1, so on and just random x vector
         #     continue
     return dataset, solset #returns input matrix of [A b] and solution array u]
@@ -62,8 +62,8 @@ def AI_data(gridsize,n):
         A = A[:,:n]
         I = I[:,:n]
     #print ('Aprime = ', A)
-     A = numpy.reshape(numpy.array(A),[n,gridsize,1])
-     I = numpy.reshape(numpy.array(I),[n,gridsize,1])
+     A = numpy.reshape(numpy.array(A),[n,1,gridsize,1])
+     I = numpy.reshape(numpy.array(I),[n,1,gridsize,1])
      return A, I
 
 #print (gen_data(6,6)) #shape is (n, gridsize, 1)
