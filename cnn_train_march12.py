@@ -24,7 +24,7 @@ Created on Mon Mar 12 10:07:41 2018
 import tensorflow as tf
 import numpy as np
 import math
-import system_data_prack
+import mg_system_data
 import matplotlib.pyplot as plt
 tf.reset_default_graph()
 #sess = tf.InteractiveSession()
@@ -147,7 +147,7 @@ def network_training():
     epoch = [0]*(epoch_num*num_batch)
     shift = 0
     for n in range(num_batch):
-        b_vals, actual_u_outputs = system_data_prack.gen_data(gridsize, num_data, dim)
+        b_vals, actual_u_outputs = mg_system_data.gen_data(gridsize, num_data, dim)
         for e in range(epoch_num):
             for i in range(int(num_data/batch_size)):
                 batch_x = b_vals[i:i+batch_size,:,:]
