@@ -22,10 +22,11 @@ def Laplacian(n, stencil=[-1, 2, -1], periodic=True):
         A[-1,0] = stencil[2]
     return A
 
-def gen_data(gridsize, n): #input is number of training/testing samples desired, matrix size of A is gridsize x gridsize
+def gen_data(gridsize, n, dim): #input is number of training/testing samples desired, matrix size of A is gridsize x gridsize
     dataset = []
     solset = []
     A = Laplacian(gridsize)
+    #A_pinv = numpy.linalg.pinv(A)
     for _ in range(n):
         #k = random.randint(0,1)
        # k = 0 #for now 12/2
@@ -34,6 +35,7 @@ def gen_data(gridsize, n): #input is number of training/testing samples desired,
             #for now will let gridsize be 2x2 for getting started
             #u = numpy.random.random((gridsize,1))
            # u = numpy.random.uniform(low=-10, high=10, size=(gridsize,1)) #does range matter? possibily the larger the range, the easier for network?
+        numpy.random.seed(_)
         u = numpy.random.rand(gridsize)
         u = u - numpy.mean(u)   
        # u_test = [1]*gridsize #FOR TEST OF AI=A FEB12 707PM
@@ -47,7 +49,7 @@ def gen_data(gridsize, n): #input is number of training/testing samples desired,
     solset = numpy.reshape(numpy.array(solset),[n,1,gridsize,1])
         # if (k == 1): #randomly generate tridiagonal matrix? maybe should leave as 2,-1, so on and just random x vector
         #     continue
-    return dataset, solset #returns input matrix of [A b] and solution array u]
+    return dataset, solset# A_pinv #returns input matrix of [A b] and solution array u]
 
 def AI_data(gridsize,n):
      A = Laplacian(gridsize)
@@ -62,9 +64,9 @@ def AI_data(gridsize,n):
         A = A[:,:n]
         I = I[:,:n]
     #print ('Aprime = ', A)
-     A = numpy.reshape(numpy.array(A),[n,1,gridsize,1])
-     I = numpy.reshape(numpy.array(I),[n,1,gridsize,1])
+     A = numpy.reshape(numpy.array(A),[n,gridsize,1])
+     I = numpy.reshape(numpy.array(I),[n,gridsize,1])
      return A, I
 
-#print (gen_data(6,6)) #shape is (n, gridsize, 1)
+#print (gen_data(2,5,1)) #shape is (n, gridsize, 1)
 #print (AI_data(6,1))
