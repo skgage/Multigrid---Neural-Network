@@ -51,22 +51,22 @@ def gen_data(gridsize, n, dim): #input is number of training/testing samples des
         #     continue
     return dataset, solset# A_pinv #returns input matrix of [A b] and solution array u]
 
-def AI_data(gridsize,n):
-     A = Laplacian(gridsize)
-     #print (A)
-     I = numpy.identity(gridsize)
-     if (n == 1):
+def AI_data(gridsize,n,dim):
+    dataset = []
+    solset = []
+    A = numpy.array(Laplacian(gridsize))
+    I = numpy.array(numpy.identity(gridsize))
+    print (I[4])
+    for _ in range(n):
         r = numpy.random.randint(0,gridsize)
-       #print ('r = ', r)
-        A = A[:,r]
-        I = I[:,r]
-     else:
-        A = A[:,:n]
-        I = I[:,:n]
+        b = A[r]
+        u = I[r]
+        dataset.append(b)
+        solset.append(u)
     #print ('Aprime = ', A)
-     A = numpy.reshape(numpy.array(A),[n,gridsize,1])
-     I = numpy.reshape(numpy.array(I),[n,gridsize,1])
-     return A, I
+    A = numpy.reshape(numpy.array(dataset),[n,1,gridsize,1])
+    I = numpy.reshape(numpy.array(solset),[n,1,gridsize,1])
+    return A, I
 
 #print (gen_data(2,5,1)) #shape is (n, gridsize, 1)
-#print (AI_data(6,1))
+#print (AI_data(6,3,1))
