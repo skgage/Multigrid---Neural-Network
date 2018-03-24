@@ -18,8 +18,8 @@ from math import *
 def Laplacian(n, stencil=[-1, 2, -1], periodic=True):
     A = stencil[1] * numpy.eye(n) + stencil[2] * numpy.eye(n, k=1) + stencil[0] * numpy.eye(n, k=-1)
     if periodic:
-        A[0,-1] = stencil[0]
-        A[-1,0] = stencil[2]
+        A[0,-1] += stencil[0]
+        A[-1,0] += stencil[2]
     return A
 
 def gen_data(gridsize, n, dim): #input is number of training/testing samples desired, matrix size of A is gridsize x gridsize
