@@ -6,24 +6,6 @@ Created on Mon Jun 18 13:55:02 2018
 @author: sarahgage
 """
 
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 12 11:59:32 2018
-
-@author: sarahgage
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 18 16:49:33 2018
-
-@author: sarahgage
-
-This file is for playing around with different optimizers
-"""
-
 #Run the following for tensorboard tensorboard --logdir=/tmp/summary/  --host=127.0.0.1 --port=6006
 
 #--------Imports--------------------------------------
